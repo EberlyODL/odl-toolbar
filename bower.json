@@ -1,0 +1,19 @@
+{
+  "name": "odl-toolbar",
+  "main": "odl-toolbar.html",
+  "dependencies": {
+    "polymer": "Polymer/polymer#^1.4.0",
+    "app-layout": "PolymerElements/app-layout#^2.0.5",
+    "iron-media-query": "PolymerElements/iron-media-query#^2.1.0",
+    "paper-item": "PolymerElements/paper-item#^2.1.0",
+    "iron-collapse": "PolymerElements/iron-collapse#^2.2.0",
+    "paper-tabs": "PolymerElements/paper-tabs#^2.0.0",
+    "odl-logo": "EberlyODL/odl-logo"
+  },
+  "devDependencies": {
+    "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",
+    "iron-demo-helpers": "PolymerElements/iron-demo-helpers#^1.0.0",
+    "web-component-tester": "^6.0.0-prerelease.5",
+    "webcomponentsjs": "webcomponents/webcomponentsjs#^0.7.0"
+  }
+}
