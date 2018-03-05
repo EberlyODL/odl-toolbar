@@ -10,6 +10,7 @@
 <link rel="import" href="../paper-menu/paper-menu.html">
 <link rel="import" href="../paper-tabs/paper-tabs.html">
 <link rel="import" href="../odl-logo/odl-logo.html">
+<link rel="import" href="../odl-container/odl-container.html">
 
 <!--
 `odl-toolbar`
@@ -25,28 +26,46 @@
         position: relative;
         z-index: 100;
       }
+
       app-header {
-        background-color: #333333;
+        background-color: rgba(0,0,0, .2);
         color: white;
         display: flex;
+        padding: .5em 0;
       }
+
       :host[align="right"] app-header {
         justify-content: flex-end;
       }
+
       :host[align="center"] app-header {
         justify-content: center;
       }
+
+      app-toolbar {
+        display: flex;
+        justify-content: center;
+      }
+
+      #desktop-logo {
+        flex: 1 1 auto;
+        display: flex;
+      }
+
       odl-logo {
         height: 64px;
         --logo-size: 64px;
       }
+
       .paper-item-link {
         color: inherit;
         text-decoration: none;
       }
+
       paper-tabs {
-        --paper-tabs-selection-bar-color: #333333;
+        --paper-tabs-selection-bar-color: rgba(0,0,0, .2);
       }
+
       paper-tab[link] a {
         @apply(--layout-horizontal);
         @apply(--layout-center-center);
@@ -56,11 +75,13 @@
         padding: 0 2vw;
         color: white;
       }
+
       .desktop-tabs {
         flex: 0 1 auto;
         justify-content: flex-end;
         align-items: flex-end;
       }
+
       .desktop-tab {
         justify-content: flex-end;
       }
@@ -68,39 +89,38 @@
 
     <iron-media-query query="(min-width: 600px)" query-matches="{{wide}}"></iron-media-query>
     <app-header fixed>
-      <app-toolbar>
-        <template is="dom-if" if="{{!wide}}">
-          <paper-icon-button icon="menu" onclick="drawer.toggle()"></paper-icon-button>
-        </template>
-        <div class="logo">
-          <odl-logo></odl-logo>
-        </div>
-        <template is="dom-if" if="{{wide}}">
-          <paper-tabs class="desktop-tabs" selected="0" noink>
-            <template is="dom-repeat" items="{{items}}">
-              <paper-tab class="desktop-tab" link>
-                <a href="{{item.url}}">{{item.title}}</a>
-              </paper-tab>
-            </template>
-          </paper-tabs>
-        </template>
-        <odl-carticon self-aware url="/cart"></odl-carticon>
-      </app-toolbar>
+      <odl-container no-max-width>
+        <app-toolbar>
+          <a id="desktop-logo" href="/" alt="Home">
+            <odl-logo></odl-logo>
+          </a>
+          <template is="dom-if" if="{{!wide}}">
+            <paper-icon-button icon="menu" onclick="drawer.toggle()"></paper-icon-button>
+          </template>
+          <template is="dom-if" if="{{wide}}">
+            <paper-tabs class="desktop-tabs" selected="0" noink>
+              <template is="dom-repeat" items="{{items}}">
+                <paper-tab class="desktop-tab" link>
+                  <a href="{{item.url}}">{{item.title}}</a>
+                </paper-tab>
+              </template>
+            </paper-tabs>
+          </template>
+          <odl-carticon self-aware url="/cart"></odl-carticon>
+        </app-toolbar>
+      </odl-container>
     </app-header>
     <template is="dom-if" if="{{!wide}}">
-      <app-drawer id="drawer" swipe-open>
+      <app-drawer id="drawer" swipe-open align="right">
         <paper-menu selected="0">
           <template is="dom-repeat" items="{{items}}">
-            <a class="paper-item-link" href="{{item.url}}"><paper-item>{{ item.title }}</paper-item></a>
+            <a class="paper-item-link" href="{{item.url}}">
+              <paper-item>{{ item.title }}</paper-item>
+            </a>
           </template>
         </paper-menu>
       </app-drawer>
     </template>
-    <iron-ajax
-        auto
-        url="/api/v3/toolbar/items"
-        handle-as="json"
-        last-response="{{items}}"></iron-ajax>
   </template>
 
   <script>
@@ -116,7 +136,7 @@
         },
         items: {
           type: Array,
-          value: function() {
+          value: function () {
             return [
               {
                 title: "Home",
